@@ -1,0 +1,93 @@
+body {
+  background: #222;
+  padding: 5vh 5vw;
+  font-family: 'courier new', monospace;
+}
+
+.outlet-group {
+  margin: 0 auto;
+  background: #fff;
+  border: 2px solid white;
+  overflow: hidden;
+  width: 40vw;
+  max-width: 1280px;
+}
+
+.outlet-group-name {
+  background: #222;
+  color: #fff;
+  padding: 0.5rem 20px;
+  margin: 0;
+  font-size: 2rem;
+  font-weight: normal;
+}
+
+.outlet-group-name::before {
+  content: '> ';
+}
+
+.outlet {
+  display: block;
+  text-decoration: none;
+  margin: 0 0;
+  padding: 1rem 20px 0;
+  position: relative;
+  color: #222;
+  height: 3rem;
+  z-index: 0;
+}
+
+.outlet::before {
+  content: '';
+  position: absolute;
+  transition: height 0.15s ease;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  z-index: -1;
+}
+
+.outlet:hover {
+  color: white;
+}
+
+.outlet:hover::before {
+  height: 4rem;
+}
+
+.outlet-on::before {
+  animation: scroll-horizontal-gradient 10s linear infinite alternate;
+  background: linear-gradient(
+    45deg,
+    rgb(130,255,190),
+    rgb(255,255,50),
+    rgb(255,130,200),
+    rgb(50,255,190)
+  );
+  background-size: 400%;
+}
+
+.outlet-off::before {
+  background: #222;
+}
+
+.outlet-name {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.outlet-status {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+@keyframes scroll-horizontal-gradient {
+  from {
+    background-position: 0% 0%;
+  }
+
+  to {
+    background-position: 100% 0%;
+  }
+}
