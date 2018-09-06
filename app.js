@@ -13,7 +13,9 @@ const device = new TuyaOutlet({
 app.use(express.json());
 
 app.get('/', (req, res) => {
-  res.sendFile('index.html', {root: './static'})
+  res.render('index', {
+    dps_statuses: device.dps_statuses
+  });
 });
 
 app.post('/api', async (req, res) =>{
@@ -31,6 +33,8 @@ app.post('/api', async (req, res) =>{
   res.send(response);
 });
 
+app.set('views', './views')
+app.set('view engine', 'pug')
 app.use(express.static('static'));
 
 app.listen(port, host);

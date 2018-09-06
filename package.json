@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "express": "^4.16.3",
+    "pug": "^2.0.3",
     "tuyapi": "^3.0.1"
   }
 }
