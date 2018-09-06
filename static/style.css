@@ -4,6 +4,25 @@ body {
   font-family: 'courier new', monospace;
 }
 
+.logo {
+  border: 0.25em solid #fff;
+  border-radius: 100%;
+  text-align: center;
+  text-transform: uppercase;
+  font-family: helvetica, arial, sans-serif;
+  font-weight: 900;
+  font-size: 1rem;
+  color: #fff;
+  padding-top: 1.5em;
+  height: 3.5em;
+  width: 5em;
+}
+
+.logo-second-word {
+  display: block;
+  font-size: 0.775em;
+}
+
 .outlet-group {
   margin: 0 auto;
   background: #fff;
