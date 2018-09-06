@@ -38,6 +38,7 @@ body {
 }
 
 .outlet::before {
+  background: #222;
   content: '';
   position: absolute;
   transition: height 0.15s ease;
@@ -56,7 +57,7 @@ body {
   height: 4rem;
 }
 
-.outlet-on::before {
+.outlet.on::before {
   animation: scroll-horizontal-gradient 10s linear infinite alternate;
   background: linear-gradient(
     45deg,
@@ -66,10 +67,6 @@ body {
     rgb(50,255,190)
   );
   background-size: 400%;
-}
-
-.outlet-off::before {
-  background: #222;
 }
 
 .outlet-name {
