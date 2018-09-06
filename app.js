@@ -5,18 +5,32 @@ const app = express();
 const port = 8080;
 const host = '0.0.0.0';
 
-device = new TuyaSwitch({
+const device = new TuyaSwitch({
   id: 'xxxxxxxxxxxxxxxxxxxx',
   key: 'xxxxxxxxxxxxxxxx',
   ip: 'xxxxxxxxxxxx'});
 
+app.use(express.json());
+
 app.get('/', (req, res) => {
-  if (req.query.outlet) {
-    console.log(`Toggling outlet ${req.query.outlet}`);
-    device.toggleOutlet(req.query.outlet);
+  res.sendFile('index.html', {root: './static'})
+});
+
+app.post('/api', async (req, res) =>{
+  let response = {};
+
+  if (req.body.dps) {
+    const dps = parseInt(req.body.dps, 10);
+
+    console.log(`Toggling dps ${dps}`);
+    await device.toggleOutlet(dps);
+
+    response[dps] = device.getOutletStatus(dps);
   }
 
-  res.sendFile('index.html', {root: './static'})
+  console.log('API call complete');
+
+  res.send(response);
 });
 
 app.use(express.static('static'));

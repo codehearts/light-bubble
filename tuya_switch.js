@@ -25,15 +25,16 @@ class TuyaSwitch {
    *
    * @param {Number} [outlet_number] The outlet to set (starting at 1)
    * @param {Boolean} [setting] True to turn on, false to turn off
+   * @return {Promise} The promise for setting the device status
    */
   setOutlet(outlet_number, setting) {
-    this.device.set({dps: outlet_number, set: setting}).then(() => {
+    return this.device.set({dps: outlet_number, set: setting}).then(async () => {
       console.log(`Outlet ${outlet_number} set to ${setting}`);
 
-      this.device.get({schema: true}).then(status => {
-        console.log('Switch status received:', status);
-        this.switch_statuses = status.dps;
-      });
+      const device_status = await this.device.get({schema: true})
+
+      console.log('Switch status received:', device_status);
+      this.switch_statuses = device_status.dps;
     });
   }
 
@@ -41,27 +42,39 @@ class TuyaSwitch {
    * Turns an individual outlet on.
    *
    * @param {Number} [outlet_number] The outlet to turn on (starting at 1)
+   * @return {Promise} The promise for setting the device status
    */
   turnOutletOn(outlet_number) {
-    this.setOutlet(outlet_number, true);
+    return this.setOutlet(outlet_number, true);
   }
 
   /**
    * Turns an individual outlet off.
    *
    * @param {Number} [outlet_number] The outlet to turn off (starting at 1)
+   * @return {Promise} The promise for setting the device status
    */
   turnOutletOff(outlet_number) {
-    this.setOutlet(outlet_number, false);
+    return this.setOutlet(outlet_number, false);
   }
 
   /**
    * Toggles the power of an individual outlet.
    *
    * @param {Number} [outlet_number] The outlet to toggle (starting at 1)
+   * @return {Promise} The promise for setting the device status
    */
   toggleOutlet(outlet_number) {
-    this.setOutlet(outlet_number, !this.switch_statuses[outlet_number]);
+    return this.setOutlet(outlet_number, !this.switch_statuses[outlet_number]);
+  }
+
+  /**
+   * Returns the status of the given outlet.
+   *
+   * @return {Boolean} The status of the outlet.
+   */
+  getOutletStatus(outlet_number) {
+    return this.switch_statuses[outlet_number];
   }
 }
 
