@@ -1,0 +1,20 @@
+doctype html
+html(lang='en-us')
+  head
+    title light-bubble
+    link(rel='stylesheet', href='style.css')
+  body
+    h1.logo light
+      span.logo-second-word bubble
+
+    section.outlet-group
+      h1.outlet-group-name Power Bank 1
+
+      section(data-dps='1', class=(dps_statuses[1] ? 'on' : '')).outlet
+        h1 String Lights
+      section(data-dps='2', class=(dps_statuses[2] ? 'on' : '')).outlet
+        h1 Blacklights
+      section(data-dps='3', class=(dps_statuses[3] ? 'on' : '')).outlet
+        h1 Artichoke
+
+    script(src='main.js')
