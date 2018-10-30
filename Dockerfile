@@ -1,4 +1,4 @@
-FROM node:slim
+FROM node:alpine
 
 WORKDIR /app
 
@@ -7,6 +7,7 @@ RUN npm install
 
 COPY *.js ./
 COPY static/ ./static/
+COPY views/ ./views/
 
 EXPOSE 8080
 
