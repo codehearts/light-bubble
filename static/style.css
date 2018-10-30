@@ -1,18 +1,26 @@
 body {
   background: #222;
   padding: 5vh 5vw;
-  font-family: 'courier new', monospace;
+  font-family: georgia, serif;
+  font-style: italic;
+  text-transform: lowercase;
+}
+
+h1 {
+  font-weight: normal;
 }
 
 .logo {
-  border: 0.25em solid #fff;
+  border: 0.25em solid #eee;
   border-radius: 100%;
   text-align: center;
   text-transform: uppercase;
-  font-family: helvetica, arial, sans-serif;
+  font-family: 'helvetica neue', helvetica, arial, sans-serif;
+  font-style: normal;
   font-weight: 900;
   font-size: 1rem;
-  color: #fff;
+  color: #eee;
+  margin: 0 auto 2rem;
   padding-top: 1.5em;
   height: 3.5em;
   width: 5em;
@@ -25,59 +33,69 @@ body {
 
 .outlet-group {
   margin: 0 auto;
-  background: #fff;
-  border: 2px solid white;
-  overflow: hidden;
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
   width: 40vw;
   max-width: 1280px;
 }
 
+@media (max-width: 1024px) {
+  .outlet-group {
+    width: 85vw;
+  }
+}
+
 .outlet-group-name {
-  background: #222;
-  color: #fff;
+  color: #eee;
   padding: 0.5rem 20px;
+  flex: 1 0 100%;
   margin: 0;
   font-size: 2rem;
   font-weight: normal;
-}
-
-.outlet-group-name::before {
-  content: '> ';
+  text-align: center;
 }
 
 .outlet {
   display: block;
   text-decoration: none;
-  margin: 0 0;
-  padding: 1rem 20px 0;
+  flex: 1 0 20%;
+  margin: 20px;
+  text-align: center;
   position: relative;
-  color: #222;
-  height: 3rem;
-  z-index: 0;
+  color: #eee;
 }
 
 .outlet::before {
+  background-image: none;
+  border: 5px solid #222;
+  border-bottom-color: #eee;
+  border-right-color: #eee;
+  border-radius: 80% 3%;
+  transition: all 1s ease;
+  margin: 0 auto;
+  content: '';
+  display: block;
+  width: 4rem;
+  height: 4rem;
+  position: relative;
+  transform: rotate(45deg);
+}
+
+.outlet::after {
   background: #222;
+  border-radius: 100%;
   content: '';
   position: absolute;
-  transition: height 0.15s ease;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 2px;
-  z-index: -1;
-}
-
-.outlet:hover {
-  color: white;
-}
-
-.outlet:hover::before {
-  height: 4rem;
+  margin-left: -0.2rem;
+  top: 0.75rem;
+  left: 50%;
+  width: 0.4rem;
+  height: 3rem;
 }
 
 .outlet.on::before {
-  animation: scroll-horizontal-gradient 10s linear infinite alternate;
+  animation: scroll-horizontal-gradient 8s linear infinite alternate;
   background: linear-gradient(
     45deg,
     rgb(130,255,190),
@@ -86,6 +104,7 @@ body {
     rgb(50,255,190)
   );
   background-size: 400%;
+  border-color: #222;
 }
 
 .outlet-name {
