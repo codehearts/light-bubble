@@ -1,63 +1,59 @@
-const TuyaDevice = require('tuyapi');
-
+/**
+ * Represents a Tuya wireless power outlet/strip
+ *
+ * This class wraps a `TuyaDevice` from the `tuyapi` package and provides an
+ * interface to control the device as a power outlet/strip
+ * @class
+ * @param {TuyaDevice} device Tuya device to control as an outlet
+ * @example
+ * const outlet = new TuyaOutlet(yourTuyaDevice)
+ */
 class TuyaOutlet {
-  /**
-   * Creates a new controller for a Tuya outlet.
-   *
-   * @param {Object} options
-   * @param {String} options.id ID of device
-   * @param {String} options.ip IP of device
-   * @param {String} options.key encryption key of device
-   */
-  constructor(options) {
-    console.log('Connecting to Tuya outlet');
-
-    this.device = new TuyaDevice(options);
-    this.dps_statuses = {};
-
-    // Fetch the current status from the outlet
-    this.device.get({schema: true}).then(device_status => {
-      console.log('Outlet status received:', device_status);
-      this.dps_statuses = device_status.dps;
-    });
+  constructor(device) {
+    this.device = device;
+    this.states = undefined;
   }
 
   /**
-   * Sets the status of an individual dps.
-   *
-   * @param {Number} [dps] The dps to set (starting at 1)
-   * @param {Boolean} [setting] True to enable, false to disable
-   * @return {Promise} The promise for setting the dps status
+   * Connects and fetches the initial device status
+   * This must be called before using the object
+   * @returns {Promise} No value on resolution, or device error on rejection
+   * @example
+   * const outlet = new TuyaOutlet(device)
+   * await outlet.connect().catch(console.error) // Outlet is ready to use now
    */
-  setDps(dps, setting) {
-    return this.device.set({dps: dps, set: setting}).then(async () => {
-      console.log(`Outlet dps ${dps} set to ${setting}`);
-
+  async connect() {
+    try {
       const device_status = await this.device.get({schema: true});
-
-      console.log('Outlet status received:', device_status);
-      this.dps_statuses = device_status.dps;
-    });
+      this.states = device_status.dps;
+    } catch (e) {
+      return Promise.reject(e.message);
+    }
   }
 
   /**
-   * Toggles the status of an individual dps.
-   *
-   * @param {Number} [dps] The dps to toggle (starting at 1)
-   * @return {Promise} The promise for setting the dps status
+   * Returns the current outlet states for the device
+   * @example
+   * const states = outlet.getOutletStates()
+   * @returns {Object}
+   * Object of numeric outlet indices to boolean states, starting from index 1
    */
-  toggleDps(dps) {
-    return this.setDps(dps, !this.dps_statuses[dps]);
+  getStates() {
+    return this.states;
   }
 
   /**
-   * Returns the status of the given dps.
-   *
-   * @param {Number} [dps] The dps to return the status of (starting at 1)
-   * @return {Boolean} The status of the dps.
+   * Sets the state of an individual outlet
+   * @param {Number} index Index of the outlet to set, starting at 1
+   * @param {Boolean} setting True to turn on, false to turn off
+   * @returns {Promise} No value on resolution, or device error on rejection
+   * @example
+   * await outlet.setState(1, true).catch(console.error)
    */
-  getDpsStatus(dps) {
-    return this.dps_statuses[dps];
+  async setState(index, state) {
+    await this.device.set({dps: index, set: state});
+
+    this.states[index] = state;
   }
 }
 
