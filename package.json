@@ -5,11 +5,18 @@
   "license": "MIT",
   "version": "1.0.0",
   "scripts": {
-    "start": "node light-bubble/routing.js"
+    "start": "node light-bubble/routing.js",
+    "test": "jest",
+    "lint": "eslint light-bubble static --ext .js"
   },
   "dependencies": {
-    "express": "^4.16.3",
-    "pug": "^2.0.3",
-    "tuyapi": "^3.0.1"
+    "express": "^4.17.1",
+    "pug": "^2.0.4",
+    "tuyapi": "^3.2.3"
+  },
+  "devDependencies": {
+    "eslint": "^5.16.0",
+    "eslint-plugin-jest": "^22.5.1",
+    "jest": "^24.7.1"
   }
 }
