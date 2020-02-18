@@ -1,40 +1,47 @@
-const TuyaOutlet = require('./tuya_outlet.js')
+const DeviceDirector = require('./device_director.js');
+const ConfigLoader = require('./config_loader.js');
 const express = require('express');
+
+// Create the router, config parser, and device director
 const app = express();
+const config = new ConfigLoader('config.json');
+const device_director = new DeviceDirector(config.devices);
 
-const port = 8080;
-const host = '0.0.0.0';
-
-const device = new TuyaOutlet({
-  id: 'xxxxxxxxxxxxxxxxxxxx',
-  key: 'xxxxxxxxxxxxxxxx',
-  ip: 'xxxxxxxxxxxx'});
+// Connect all devices asynchronously
+device_director.connectAll();
 
 app.use(express.json());
 
+// Endpoint URLs
+const api_endpoint = '/api';
+
+// Route for main app
 app.get('/', (req, res) => {
   res.render('index', {
-    dps_statuses: device.dps_statuses
+    'api_endpoint': api_endpoint,
+    'theme': `theme-${config.theme}`,
+    'forms': [...device_director.forms.values()] // Convert to array for Pug
   });
 });
 
-app.post('/api', async (req, res) =>{
-  let response = {};
+// Route for API requests
+app.post(api_endpoint, async (req, res) =>{
+  const fieldPromises = [];
 
-  if (req.body.dps) {
-    const dps = parseInt(req.body.dps, 10);
-
-    await device.toggleDps(dps);
-    response[dps] = device.getDpsStatus(dps);
+  for (const field in req.body) {
+    // Stored as functions to avoid running promises before Promise.all
+    fieldPromises.push(() => device_director.setFieldState(field, req.body[field]));
   }
 
-  console.log('API call complete');
-
-  res.send(response);
+  // Send 200 if all devices are set, 500 otherwise
+  await Promise.all(fieldPromises.map(promise => promise()))
+    .then(() => res.sendStatus(200))
+    .catch(() => res.sendStatus(500));
 });
 
-app.set('views', './views')
-app.set('view engine', 'pug')
+// Server static assets using Pug for templates
+app.set('views', './views');
+app.set('view engine', 'pug');
 app.use(express.static('static'));
 
-app.listen(port, host);
+module.exports = {'app': app, 'config': config};
