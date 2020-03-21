@@ -44,4 +44,4 @@ app.set('views', './views');
 app.set('view engine', 'pug');
 app.use(express.static('static'));
 
-module.exports = {'app': app, 'config': config};
+module.exports = {'app': app, 'config': config, 'device_directory': device_director};

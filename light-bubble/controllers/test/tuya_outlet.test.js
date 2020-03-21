@@ -36,6 +36,40 @@ it('fetches status on connect', async () => {
   expect(device.get).toHaveBeenCalledWith({schema: true});
 });
 
+it('disconnects from device on disconnect', async () => {
+  const MockTuyaDevice = jest.fn().mockImplementation(() => {
+    return {
+      connect: jest.fn().mockResolvedValue(),
+      get: jest.fn().mockResolvedValue({dps: {}}),
+      disconnect: jest.fn().mockResolvedValue(),
+    };
+  });
+
+  const device = new MockTuyaDevice();
+  const outlet = new TuyaOutlet(device);
+  await outlet.connect().catch();
+  await outlet.disconnect().catch();
+
+  expect(device.disconnect).toHaveBeenCalledTimes(1);
+});
+
+it('resets status on disconnect', async () => {
+  const MockTuyaDevice = jest.fn().mockImplementation(() => {
+    return {
+      connect: jest.fn().mockResolvedValue(),
+      get: jest.fn().mockResolvedValue({dps: {}}),
+      disconnect: jest.fn().mockResolvedValue(),
+    };
+  });
+
+  const device = new MockTuyaDevice();
+  const outlet = new TuyaOutlet(device);
+  await outlet.connect().catch();
+  await outlet.disconnect().catch();
+
+  expect(device.status).toBeUndefined();
+});
+
 it('rejects with error message if connection fails', async () => {
   const MockTuyaDevice = jest.fn().mockImplementation(() => {
     return {

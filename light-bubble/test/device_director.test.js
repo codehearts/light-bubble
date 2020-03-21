@@ -30,6 +30,7 @@ beforeEach(() => {
   controller_factory.mockImplementation(() => {
     return {
       'connect': jest.fn().mockResolvedValue(),
+      'disconnect': jest.fn().mockResolvedValue(),
       'setState': jest.fn(),
       'states': [true, false]
     };
@@ -122,6 +123,29 @@ it('sets form error message if device fails to connect', async () => {
   await device_director.connectAll();
   await controller_factory.mock.results[0].value.connect;
   await controller_factory.mock.results[1].value.connect;
+
+  expect(device_director.forms.get('form-1').setErrorMessage)
+    .toHaveBeenCalledWith('Error 1');
+  expect(device_director.forms.get('form-2').setErrorMessage)
+    .toHaveBeenCalledWith('Error 2');
+});
+
+it('disconnects all devices', () => {
+  device_director.disconnectAll();
+
+  expect(device_director.controllers.get('form-1').disconnect).toHaveBeenCalled();
+  expect(device_director.controllers.get('form-2').disconnect).toHaveBeenCalled();
+});
+
+it('sets form error message if device fails to disconnect', async () => {
+  controller_factory.mock.results[0].value.disconnect
+    .mockReset().mockRejectedValueOnce('Error 1');
+  controller_factory.mock.results[1].value.disconnect
+    .mockReset().mockRejectedValueOnce('Error 2');
+
+  await device_director.disconnectAll();
+  await controller_factory.mock.results[0].value.disconnect;
+  await controller_factory.mock.results[1].value.disconnect;
 
   expect(device_director.forms.get('form-1').setErrorMessage)
     .toHaveBeenCalledWith('Error 1');
