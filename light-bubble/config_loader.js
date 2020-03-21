@@ -19,7 +19,7 @@ class ConfigLoader {
 
     // Read port from config
 
-    if (!config.hasOwnProperty('port')) {
+    if (!Object.prototype.hasOwnProperty.call(config, 'port')) {
       throw 'Field "port" missing from config file';
     }
 
@@ -27,7 +27,7 @@ class ConfigLoader {
 
     // Read host from config
 
-    if (!config.hasOwnProperty('host')) {
+    if (!Object.prototype.hasOwnProperty.call(config, 'host')) {
       throw 'Field "host" missing from config file';
     }
 
@@ -35,7 +35,7 @@ class ConfigLoader {
 
     // Read devices from config
 
-    if (!config.hasOwnProperty('devices')) {
+    if (!Object.prototype.hasOwnProperty.call(config, 'devices')) {
       throw 'Field "devices" missing from config file, use [] for 0 devices';
     }
 
@@ -45,7 +45,7 @@ class ConfigLoader {
 
     this.theme = 'default';
 
-    if (config.hasOwnProperty('theme')) {
+    if (Object.prototype.hasOwnProperty.call(config, 'theme')) {
       const config_theme = config.theme.toLowerCase();
 
       // Set the theme if it's valid

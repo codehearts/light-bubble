@@ -10,14 +10,14 @@
     "lint": "eslint light-bubble static --ext .js"
   },
   "dependencies": {
-    "express": "^4.17.1",
-    "pug": "^2.0.4",
-    "tuyapi": "^3.2.3"
+    "express": "4.17.1",
+    "pug": "2.0.4",
+    "tuyapi": "3.2.3"
   },
   "devDependencies": {
-    "eslint": "^5.16.0",
-    "eslint-plugin-jest": "^22.5.1",
-    "jest": "^24.7.1",
-    "supertest": "^4.0.2"
+    "eslint": "6.8.0",
+    "eslint-plugin-jest": "23.8.2",
+    "jest": "25.1.0",
+    "supertest": "4.0.2"
   }
 }

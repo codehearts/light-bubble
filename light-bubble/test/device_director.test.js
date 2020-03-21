@@ -155,7 +155,7 @@ it('sets controller state from field UID', () => {
     .toHaveBeenCalledWith(1, true);
 });
 
-it('throws when setting unknown field uid', () => {
-  expect(device_director.setFieldState('unknown', true))
+it('throws when setting unknown field uid', async () => {
+  await expect(device_director.setFieldState('unknown', true))
     .rejects.toEqual('Unable to set state of unknown form field "unknown"');
 });
