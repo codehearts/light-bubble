@@ -3,7 +3,7 @@ const TuyaOutlet = require('../tuya_outlet.js');
 it('has undefined outlet states before connecting', () => {
   const outlet = new TuyaOutlet({});
 
-  expect(outlet.states).toBeUndefined();
+  expect(outlet.getStates()).toBeUndefined();
 });
 
 it('connects to device on connect', async () => {
@@ -84,7 +84,7 @@ it('rejects with error message if connection fails', async () => {
   await expect(outlet.connect()).rejects.toEqual('Test error');
 });
 
-it('returns all outlet states from device status', async () => {
+it('returns all outlet states with 0-based indexing from device status', async () => {
   const MockTuyaDevice = jest.fn().mockImplementation(() => {
     return {
       connect: jest.fn().mockResolvedValue(),
@@ -95,25 +95,29 @@ it('returns all outlet states from device status', async () => {
   const outlet = new TuyaOutlet(new MockTuyaDevice());
   await outlet.connect();
 
-  expect(outlet.getStates()).toEqual({1: true, 2: false});
+  expect(outlet.getStates()).toEqual([true, false]);
 });
 
-it('sets individual outlet states', async () => {
+it('sets individual outlet states with 0-based indexing', async () => {
   const MockTuyaDevice = jest.fn().mockImplementation(() => {
     return {
       connect: jest.fn().mockResolvedValue(),
       get: jest.fn().mockResolvedValue({dps: {1: true, 2: false}}),
-      set: jest.fn().mockImplementation(options => Promise.resolve(options.set))
+      set: jest.fn().mockImplementation(options => {
+        let device_status = {dps: {1: options.set, 2: false}};
+        device_status.dps[options.dps] = options.set;
+        return Promise.resolve(device_status);
+      })
     };
   });
 
   const device = new MockTuyaDevice();
   const outlet = new TuyaOutlet(device);
   await outlet.connect();
-  await outlet.setState(1, false);
+  await outlet.setState(0, false);
 
-  expect(device.set).toHaveBeenCalledWith({dps: 1, set: false});
-  expect(outlet.getStates()).toEqual({1: false, 2: false});
+  expect(device.set).toHaveBeenCalledWith({dps: '1', set: false});
+  expect(outlet.getStates()).toEqual([false, false]);
 });
 
 it('rejects if setting state fails', async () => {
@@ -129,5 +133,5 @@ it('rejects if setting state fails', async () => {
   await outlet.connect();
 
   expect.assertions(1);
-  await expect(outlet.setState(1, false)).rejects.toEqual('Error');
+  await expect(outlet.setState(0, false)).rejects.toEqual('Error');
 });

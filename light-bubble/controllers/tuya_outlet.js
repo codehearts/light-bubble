@@ -27,7 +27,8 @@ class TuyaOutlet {
       await this.device.connect();
 
       const device_status = await this.device.get({schema: true});
-      this.states = device_status.dps;
+      this.index_dps_map = Object.keys(device_status.dps);
+      this.states = this.index_dps_map.map(dps_index => device_status.dps[dps_index]);
     } catch (e) {
       return Promise.reject(e.message);
     }
@@ -47,11 +48,11 @@ class TuyaOutlet {
   }
 
   /**
-   * Returns the current outlet states for the device
+   * Returns the current outlet states for the device, in order of the config
    * @example
    * const states = outlet.getOutletStates()
-   * @returns {Object}
-   * Object of numeric outlet indices to boolean states, starting from index 1
+   * @returns {Array}
+   * Array of boolean states
    */
   getStates() {
     return this.states;
@@ -66,7 +67,9 @@ class TuyaOutlet {
    * await outlet.setState(1, true).catch(console.error)
    */
   async setState(index, state) {
-    this.states[index] = await this.device.set({dps: index, set: state});
+    const dps_index = this.index_dps_map[index];
+    const device_status = await this.device.set({dps: dps_index, set: state});
+    this.states = this.index_dps_map.map(dps_index => device_status.dps[dps_index]);
   }
 }
 
