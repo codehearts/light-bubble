@@ -76,6 +76,21 @@ class DeviceDirector {
   }
 
   /**
+   * Disconnects all managed controllers from their devices
+   * @example
+   * device_director = new DeviceDirector(devices)
+   * device_director.connectAll() // Connect them all
+   * device_director.disconnectAll() // Now disconnect them
+   */
+  disconnectAll() {
+    this.controllers.forEach((controller, uid) => {
+      controller.disconnect().catch(e => {
+        this.forms.get(uid).setErrorMessage(e);
+      });
+    });
+  }
+
+  /**
    * Sets the state associated with the field's UID
    *
    * @param {String} field_uid UID of the field to set

@@ -34,6 +34,19 @@ class TuyaOutlet {
   }
 
   /**
+   * Disconnects the device
+   * @returns {Promise} No value on resolution
+   * @example
+   * const outlet = new TuyaOutlet(device)
+   * await outlet.connect().catch(console.error) // Outlet connected
+   * await outlet.disconnect(); // Outlet disconnected
+   */
+  async disconnect() {
+    this.device.disconnect();
+    this.states = undefined;
+  }
+
+  /**
    * Returns the current outlet states for the device
    * @example
    * const states = outlet.getOutletStates()
