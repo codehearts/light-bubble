@@ -24,6 +24,8 @@ class TuyaOutlet {
    */
   async connect() {
     try {
+      await this.device.connect();
+
       const device_status = await this.device.get({schema: true});
       this.states = device_status.dps;
     } catch (e) {
@@ -51,9 +53,7 @@ class TuyaOutlet {
    * await outlet.setState(1, true).catch(console.error)
    */
   async setState(index, state) {
-    await this.device.set({dps: index, set: state});
-
-    this.states[index] = state;
+    this.states[index] = await this.device.set({dps: index, set: state});
   }
 }
 

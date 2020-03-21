@@ -6,9 +6,27 @@ it('has undefined outlet states before connecting', () => {
   expect(outlet.states).toBeUndefined();
 });
 
+it('connects to device on connect', async () => {
+  const MockTuyaDevice = jest.fn().mockImplementation(() => {
+    return {
+      connect: jest.fn().mockResolvedValue(),
+      get: jest.fn().mockResolvedValue({dps: {}})
+    };
+  });
+
+  const device = new MockTuyaDevice();
+  const outlet = new TuyaOutlet(device);
+  await outlet.connect().catch();
+
+  expect(device.connect).toHaveBeenCalledTimes(1);
+});
+
 it('fetches status on connect', async () => {
   const MockTuyaDevice = jest.fn().mockImplementation(() => {
-    return { get: jest.fn().mockResolvedValue({dps: {}}) };
+    return {
+      connect: jest.fn().mockResolvedValue(),
+      get: jest.fn().mockResolvedValue({dps: {}})
+    };
   });
 
   const device = new MockTuyaDevice();
@@ -20,7 +38,10 @@ it('fetches status on connect', async () => {
 
 it('rejects with error message if connection fails', async () => {
   const MockTuyaDevice = jest.fn().mockImplementation(() => {
-    return { get: jest.fn().mockRejectedValue(new Error('Test error')) };
+    return {
+      connect: jest.fn().mockResolvedValue(),
+      get: jest.fn().mockRejectedValue(new Error('Test error'))
+    };
   });
 
   const outlet = new TuyaOutlet(new MockTuyaDevice());
@@ -31,7 +52,10 @@ it('rejects with error message if connection fails', async () => {
 
 it('returns all outlet states from device status', async () => {
   const MockTuyaDevice = jest.fn().mockImplementation(() => {
-    return { get: jest.fn().mockResolvedValue({dps: {1: true, 2: false}}) };
+    return {
+      connect: jest.fn().mockResolvedValue(),
+      get: jest.fn().mockResolvedValue({dps: {1: true, 2: false}})
+    };
   });
 
   const outlet = new TuyaOutlet(new MockTuyaDevice());
@@ -43,8 +67,9 @@ it('returns all outlet states from device status', async () => {
 it('sets individual outlet states', async () => {
   const MockTuyaDevice = jest.fn().mockImplementation(() => {
     return {
+      connect: jest.fn().mockResolvedValue(),
       get: jest.fn().mockResolvedValue({dps: {1: true, 2: false}}),
-      set: jest.fn().mockResolvedValue(true)
+      set: jest.fn().mockImplementation(options => Promise.resolve(options.set))
     };
   });
 
@@ -60,6 +85,7 @@ it('sets individual outlet states', async () => {
 it('rejects if setting state fails', async () => {
   const MockTuyaDevice = jest.fn().mockImplementation(() => {
     return {
+      connect: jest.fn().mockResolvedValue(),
       get: jest.fn().mockResolvedValue({dps: {1: true, 2: false}}),
       set: jest.fn().mockRejectedValue('Error')
     };
