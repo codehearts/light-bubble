@@ -19,7 +19,7 @@ html(lang='en-us')
 
           for field in form.fields
             if field.type == 'boolean'
-              input(type='checkbox', name=field.uid, disabled=(field.state == undefined), checked=field.state)
+              input(type='checkbox', id=field.uid, name=field.uid, disabled=(field.state == undefined), checked=field.state)
               label(for=field.uid) #{field.title}
 
     script(src='client.js')
