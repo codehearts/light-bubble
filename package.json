@@ -12,7 +12,7 @@
   "dependencies": {
     "express": "4.17.1",
     "pug": "2.0.4",
-    "tuyapi": "3.2.3"
+    "tuyapi": "5.2.1"
   },
   "devDependencies": {
     "eslint": "6.8.0",
