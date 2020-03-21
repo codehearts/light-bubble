@@ -1,0 +1,27 @@
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+/*
+ * The base light-bubble logo style
+ * The font sizing is relative, and all colors can be controlled via `color`
+ */
+.logo {
+  border: 0.25rem solid currentcolor;
+  border-radius: 100%;
+  box-shadow: 0 0 1rem currentcolor;
+  margin: 2rem auto;
+  padding-top: 1.5em;
+  font: normal normal 900 1rem 'helvetica neue', helvetica, arial, sans-serif;
+  text-transform: uppercase;
+  text-align: center;
+  color: #000;
+  height: 3.5rem;
+  width: 5rem;
+}
+
+.logo-second-word {
+  display: block;
+  font-size: 0.775rem;
+}
