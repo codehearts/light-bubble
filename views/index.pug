@@ -2,9 +2,10 @@ doctype html
 html(lang='en-us')
   head
     title light-bubble
-    link(rel='stylesheet', href='style.css')
+    link(rel='stylesheet', href='styles/base.css')
+    link(rel='stylesheet', href='styles/' + theme + '.css')
     meta(name='viewport', content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0')
-  body(class=theme)
+  body
     h1.logo light
       span.logo-second-word bubble
 
@@ -18,7 +19,7 @@ html(lang='en-us')
 
           for field in form.fields
             if field.type == 'boolean'
-              label #{field.title}
-                input(type='checkbox', name=field.uid, disabled=(field.state == undefined), checked=field.state)
+              input(type='checkbox', name=field.uid, disabled=(field.state == undefined), checked=field.state)
+              label(for=field.uid) #{field.title}
 
     script(src='client.js')

@@ -1,0 +1,126 @@
+html {
+  font-size: calc(1vw + 1.5vh + 1vmin);
+}
+
+body {
+  background: #001;
+  font-family: 'avenir next', system-ui;
+  font-weight: 500;
+  color: #9f9099;
+}
+
+.logo {
+  color: #9f9099;
+}
+
+.error {
+  background: #903;
+  padding: 1rem;
+}
+
+form {
+  margin: 1rem auto;
+  max-width: 90vw;
+}
+
+fieldset {
+  border: none;
+  padding: 0;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  font-size: 2rem;
+}
+
+legend {
+  margin: 1rem 0;
+  font-size: 2rem;
+}
+
+label {
+  margin: 1rem 0;
+  padding: 0 1rem;
+  padding-left: 3.5rem;
+  flex: 1 0 20%;
+  font-size: 1.5rem;
+  position: relative;
+}
+
+input[type=checkbox] {
+  visibility: hidden;
+  margin: 0;
+  padding: 0;
+  width: 0;
+  height: 0;
+}
+
+label::before {
+  border-width: 0.2rem;
+  border-style: solid;
+  border-radius: 1rem;
+  box-sizing: border-box;
+  margin-right: 1ex;
+  transition: all linear 0.1s;
+  display: block;
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 3rem;
+  height: 2rem;
+}
+
+label::after {
+  border-radius: 100%;
+  box-sizing: border-box;
+  display: block;
+  content: '';
+  transition: all linear 0.1s;
+  position: absolute;
+  top: 0.375rem;
+  left: 1.375rem;
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+input[type="checkbox"]:disabled + label::before,
+input[type="checkbox"]:disabled + label::after {
+  opacity: 0.5;
+}
+
+input[type="checkbox"] + label::before {
+  border-color: #9f9099;
+}
+
+input[type="checkbox"] + label::after {
+  background: #9f9099;
+}
+
+input[type="checkbox"]:checked + label::before {
+  border-color: #d36;
+  box-shadow: 0 0 18px 6px #a03;
+}
+
+input[type="checkbox"]:checked + label::after {
+  background: #d36;
+  left: 0.375rem;
+}
+
+input[type="checkbox"].awaiting-response + label::before {
+  animation: checkbox-exterior-awaiting 1.5s ease-in-out infinite alternate;
+}
+
+input[type="checkbox"].awaiting-response + label::after {
+  animation: checkbox-interior-awaiting 1.5s ease-in-out infinite alternate;
+  left: 0.875rem;
+}
+
+@keyframes checkbox-exterior-awaiting {
+  from { box-shadow: 0 0 0 0 #a03; border-color: #9f9099; }
+  to { box-shadow: 0 0 1.5rem 0.5rem #a03; border-color: #d36; }
+}
+
+@keyframes checkbox-interior-awaiting {
+  from { background: #9f9099; }
+  to { background: #d36; }
+}
