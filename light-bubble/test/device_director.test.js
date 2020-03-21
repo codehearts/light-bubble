@@ -32,7 +32,7 @@ beforeEach(() => {
       'connect': jest.fn().mockResolvedValue(),
       'disconnect': jest.fn().mockResolvedValue(),
       'setState': jest.fn(),
-      'states': [true, false]
+      'getStates': jest.fn().mockReturnValue([true, false])
     };
   });
 

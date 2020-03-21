@@ -66,7 +66,7 @@ class DeviceDirector {
         .then(() => {
           // Form states are updated once the device has connected
           this.forms.get(uid).fields.forEach((field, index) => {
-            field.state = controller.states[index];
+            field.state = controller.getStates()[index];
           });
         })
         .catch(e => {
