@@ -44,6 +44,17 @@ docker build -t light-bubble .
 docker run -p 49160:8080 -d light-bubble
 ```
 
+## Themeing
+
+light-bubble can be themed by creating the following files:
+
+- `static/theme-${theme_name}/`
+  - `style.css`: stylesheet for the theme
+  - `icon.png`: a 192x192px png for the theme's app icon
+  - `manifest.webmanifest`: a webmanifest customized for the theme
+
+Simply set the `theme` field in your `config.json` to the name of your theme, and you're done!
+
 [coverage-badge]: https://img.shields.io/codecov/c/github/codehearts/light-bubble/master
 [coverage-link]:  https://codecov.io/gh/codehearts/light-bubble
 [build-badge]:    https://img.shields.io/github/workflow/status/codehearts/light-bubble/Test/master
