@@ -20,7 +20,7 @@ app.get('/', (req, res) => {
   res.render('index', {
     'api_endpoint': api_endpoint,
     'theme': `theme-${config.theme}`,
-    'forms': [...device_director.forms.values()] // Convert to array for Pug
+    'forms': [...device_director.forms.values()] // Convert to array for viw template
   });
 });
 
@@ -39,9 +39,9 @@ app.post(api_endpoint, async (req, res) =>{
     .catch(() => res.sendStatus(500));
 });
 
-// Server static assets using Pug for templates
+// Server static assets using view templates
 app.set('views', './views');
-app.set('view engine', 'pug');
+app.set('view engine', 'ejs');
 app.use(express.static('static'));
 
 module.exports = {'app': app, 'config': config, 'device_directory': device_director};
