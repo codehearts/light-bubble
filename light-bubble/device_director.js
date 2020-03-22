@@ -47,7 +47,7 @@ class DeviceDirector {
 
       // Map field UIDs to controller and device state indices
       form.fields.forEach((field, index) => {
-        this.field_uid_map.set(field.uid, {'index': index, 'controller': controller});
+        this.field_uid_map.set(field.uid, {'index': index, 'controller': controller, 'form': form});
       });
 
       device_index += 1;
@@ -107,6 +107,10 @@ class DeviceDirector {
     }
 
     await field_metadata.controller.setState(field_metadata.index, state);
+
+    // Update the form state based on the result of the controller
+    field_metadata.form.fields[field_metadata.index].state =
+      field_metadata.controller.getStates()[field_metadata.index];
   }
 }
 
