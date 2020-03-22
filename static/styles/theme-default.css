@@ -27,6 +27,7 @@ fieldset {
   border: none;
   padding: 0;
   display: flex;
+  align-content: space-between;
   justify-content: space-between;
   flex-wrap: wrap;
   font-size: 2rem;
@@ -41,7 +42,7 @@ label {
   margin: 1rem 0;
   padding: 0 1rem;
   padding-left: 3.5rem;
-  flex: 1 0 20%;
+  flex: 1 0 25%;
   font-size: 1.5rem;
   position: relative;
 }
