@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang='en-us'>
+  <head>
+    <title>light-bubble</title>
+    <link type="text/css" rel="stylesheet" href="styles/base.css">
+    <link type="text/css" rel="stylesheet" href="styles/<%= theme %>.css">
+    <meta name='viewport' content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+    <h1 class="logo">light <span class="logo-second-word">bubble</span></h1>
+
+    <% for(form of forms) { %>
+    <form action="<%= api_endpoint %>" method="post">
+        <% if (form.has_error) { %>
+        <p class="error"><%= form.error_message %></p>
+        <% } %>
+
+        <fieldset>
+          <legend><%= form.title %></legend>
+
+          <% for (field of form.fields) { %>
+            <% if (field.type == 'boolean') { %>
+          <input type="checkbox" id="<%= field.uid %>" name="<%= field.uid %>"
+            <% if (field.state) { %>checked<% } %>
+            <% if (field.state === undefined) { %>disabled<% } %>>
+          <label for="<%= field.uid %>"><%= field.title %></label>
+            <% } %>
+          <% } %>
+        </fieldset>
+    </form>
+    <% } %>
+
+    <script src="client.js"></script>
+  </body>
+</html>
