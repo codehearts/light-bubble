@@ -28,12 +28,18 @@ beforeEach(() => {
   jest.clearAllMocks();
 
   controller_factory.mockImplementation(() => {
-    return {
-      'connect': jest.fn().mockResolvedValue(),
-      'disconnect': jest.fn().mockResolvedValue(),
-      'setState': jest.fn(),
-      'getStates': jest.fn().mockReturnValue([true, false])
-    };
+    class MockDevice {
+      constructor() {
+        this.states = [true, false];
+        this.connect = jest.fn().mockResolvedValue();
+        this.disconnect = jest.fn().mockResolvedValue();
+        this.setState = jest.fn().mockImplementation((index, state) => this.states[index] = state);
+        this.getStates = jest.fn().mockImplementation(() => this.states);
+      }
+    }
+
+
+    return new MockDevice();
   });
 
   // Stub the field UIDs for each form_factory call
@@ -161,22 +167,30 @@ it('maps UIDs to forms', () => {
     .toBe(form_factory.mock.results[1].value);
 });
 
-it('sets controller state from field UID', () => {
-  device_director.setFieldState('form-1-field-0', true);
+it('sets controller state from field UID', async () => {
+  await device_director.setFieldState('form-1-field-0', true);
   expect(controller_factory.mock.results[0].value.setState)
     .toHaveBeenCalledWith(0, true);
+  expect(device_director.forms.get('form-1').fields[0].state)
+    .toBe(true);
 
-  device_director.setFieldState('form-1-field-1', false);
+  await device_director.setFieldState('form-1-field-1', false);
   expect(controller_factory.mock.results[0].value.setState)
     .toHaveBeenCalledWith(1, false);
+  expect(device_director.forms.get('form-1').fields[1].state)
+    .toBe(false);
 
-  device_director.setFieldState('form-2-field-0', false);
+  await device_director.setFieldState('form-2-field-0', false);
   expect(controller_factory.mock.results[1].value.setState)
     .toHaveBeenCalledWith(0, false);
+  expect(device_director.forms.get('form-2').fields[0].state)
+    .toBe(false);
 
-  device_director.setFieldState('form-2-field-1', true);
+  await device_director.setFieldState('form-2-field-1', true);
   expect(controller_factory.mock.results[1].value.setState)
     .toHaveBeenCalledWith(1, true);
+  expect(device_director.forms.get('form-2').fields[1].state)
+    .toBe(true);
 });
 
 it('throws when setting unknown field uid', async () => {
