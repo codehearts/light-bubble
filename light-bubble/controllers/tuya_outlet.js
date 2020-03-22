@@ -12,6 +12,8 @@ class TuyaOutlet {
   constructor(device) {
     this.device = device;
     this.states = undefined;
+
+    device.on('error', () => {});
   }
 
   /**
