@@ -1,0 +1,142 @@
+html {
+  font-size: calc(1vw + 1.5vh + 1vmin);
+}
+
+body {
+  animation: background-scroll 20s linear infinite;
+  background: #e9f4ec url('leaves.jpg') repeat;
+  font-family:
+    'hiragino maru gothic pron',
+    yukyokasho,
+    'tsukushi a round gothic',
+    'arial rounded mt bold',
+    system-ui;
+  font-weight: 500;
+  color: #765;
+}
+
+.logo {
+  border-color: rgba(90, 190, 75, 0.5);
+  box-shadow: none;
+  color: rgb(90, 190, 75);
+}
+
+.error {
+  background: rgba(255, 64, 64, 0.2);
+  padding: 1rem;
+}
+
+form {
+  margin: 1rem auto;
+  max-width: 90vw;
+}
+
+fieldset {
+  border: none;
+  border-image:
+    radial-gradient(#fffae4, #fee 70%, transparent 70%, transparent)
+    40% 20% fill / 1rem round;
+  padding: 0;
+  display: flex;
+  align-content: space-between;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  font-size: 2rem;
+}
+
+legend {
+  background: rgba(90, 190, 75, 0.25);
+  border-radius: 100px;
+  margin: 1rem 0 0;
+  padding: 0.5em 1em;
+  font-size: 0.75rem;
+  color: rgb(90, 190, 75);
+}
+
+label {
+  border-image:
+    radial-gradient(rgba(80, 190, 175, 0.9), rgba(80, 190, 175, 0.9) 70%, transparent 70%, transparent)
+    30% 17% fill / 0.75rem 1rem round;
+  margin: 1rem 0.5rem 3.5rem;
+  padding: 0.5rem;
+  box-sizing: content-box;
+  flex: 1 0 auto;
+  position: relative;
+  font-size: 1.25rem;
+  text-align: center;
+  color: rgba(255, 249, 227, 0.9);
+  white-space: pre;
+}
+
+input[type=checkbox] {
+  visibility: hidden;
+  margin: 0;
+  padding: 0;
+  width: 0;
+  height: 0;
+}
+
+input[type="checkbox"]:disabled + label::before {
+  content: '／';
+  color: #765;
+  text-indent: -0.125ex;
+  line-height: 0.75em;
+}
+
+input[type="checkbox"] + label::before {
+  background: rgba(191, 178, 164, 0.6);
+  border-radius: 1rem;
+  margin-left: -0.5rem;
+  display: block;
+  content: '';
+  position: absolute;
+  top: 4rem;
+  left: 50%;
+  width: 1rem;
+  height: 1rem;
+}
+
+input[type="checkbox"] + label::after {
+  border: 0.75rem solid transparent;
+  border-top-color: rgba(80, 190, 175, 0.9);
+  border-radius: 0 0 100px 100px;
+  margin-left: -0.75rem;
+  display: block;
+  content: '';
+  position: absolute;
+  top: 2.875rem;
+  left: 50%;
+  width: 0;
+  height: 0;
+}
+
+input[type="checkbox"]:checked + label::before {
+  animation: pop-in 0.15s ease-in-out 1;
+  background: no-repeat center/100% url('leaf.png');
+  border-radius: 0;
+  margin-left: -1rem;
+  top: 3.5rem;
+  left: 50%;
+  width: 2rem;
+  height: 2rem;
+}
+
+input[type="checkbox"].awaiting-response + label::before {
+  animation: checkbox-awaiting 1s ease-in-out infinite alternate;
+}
+
+@keyframes background-scroll {
+  from { background-position: 420px 420px; }
+  to { background-position: 0 0; }
+}
+
+@keyframes checkbox-awaiting {
+  from { background-color: rgba(191, 178, 164, 0.6); }
+  to { background-color: rgba(80, 190, 175, 0.9); }
+}
+
+@keyframes pop-in {
+  from { transform: scale(0.8); }
+  60% { transform: scale(1.1); }
+  to { transform: scale(1); }
+}

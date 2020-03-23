@@ -1,0 +1,15 @@
+{
+  "background_color": "#e9f4ec",
+  "description": "Open source home controller",
+  "display": "fullscreen",
+  "icons": [
+    {
+      "src": "theme-horizon/icon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ],
+  "name": "light-bubble",
+  "short_name": "light-bubble",
+  "start_url": "/"
+}
