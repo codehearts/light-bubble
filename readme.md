@@ -12,6 +12,7 @@ Configuration is done via `config.json`. This repo includes a `config-sample.jso
 - `host (str)`: Host for the light-bubble server to listen on
 - `theme (str)`: Your preferred interface for light-bubble. Available themes are:
   - default: A plain and understated theme
+  - horizon: Heavily inspired by a slice-of-life game I can't play yet
 - `devices (arr of devices)`: Configurations for individual devices, in order of appearance on the interface
 
 Supported devices and their configurations are listed below
