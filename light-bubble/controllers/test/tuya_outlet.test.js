@@ -1,5 +1,16 @@
 const TuyaOutlet = require('../tuya_outlet.js');
 
+it('squashes tuya outlet error events', () => {
+  expect.assertions(2);
+
+  new TuyaOutlet({
+    on: jest.fn().mockImplementation((event_name, callback) => {
+      expect(event_name).toEqual('error');
+      expect(callback).not.toThrow();
+    })
+  });
+});
+
 it('has undefined outlet states before connecting', () => {
   const outlet = new TuyaOutlet({ on: jest.fn() });
 
