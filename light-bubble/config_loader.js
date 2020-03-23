@@ -1,8 +1,5 @@
 const fs = require('fs');
 
-// Array of valid theem names, all lowercase
-const valid_themes = ['default', 'catseye'];
-
 /**
  * Reads and parses a light-bubble config file from disk
  * 
@@ -48,8 +45,7 @@ class ConfigLoader {
     if (Object.prototype.hasOwnProperty.call(config, 'theme')) {
       const config_theme = config.theme.toLowerCase();
 
-      // Set the theme if it's valid
-      if (valid_themes.includes(config_theme)) {
+      if (fs.existsSync(`static/theme-${config_theme}`)) {
         this.theme = config_theme;
       }
     }

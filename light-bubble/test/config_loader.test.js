@@ -80,20 +80,22 @@ it('accepts "default" theme', () => {
   expect(config.theme).toEqual('default');
 });
 
-it('accepts "catseye" theme', () => {
-  config_file.theme = 'catseye';
+it('accepts "non-default" theme, which exists on disk', () => {
+  fs.existsSync.mockReturnValue(true);
+  config_file.theme = 'non-default';
 
   const config = new ConfigLoader('test.json');
 
-  expect(config.theme).toEqual('catseye');
+  expect(config.theme).toEqual('non-default');
+  expect(fs.existsSync).toHaveBeenCalledWith('static/theme-non-default');
 });
 
 it('converts theme names to lowercase', () => {
-  config_file.theme = 'cAtSeYe';
+  config_file.theme = 'dEfAuLt';
 
   const config = new ConfigLoader('test.json');
 
-  expect(config.theme).toEqual('catseye');
+  expect(config.theme).toEqual('default');
 });
 
 it('use default theme when theme field is missing', () => {
