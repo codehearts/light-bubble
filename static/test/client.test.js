@@ -78,6 +78,40 @@ it('removes awaiting-response class from input after non-ok fetch', async () => 
   expect(input.classList).not.toContain('awaiting-response');
 });
 
+it('displays an error message after non-ok fetch', async () => {
+  const input = document.querySelector('input');
+
+  expect.assertions(1);
+  global.fetch.mockResolvedValue({
+    'ok': false,
+    text: jest.fn().mockResolvedValue('test error'),
+  });
+
+  require('../client.js'); // Module has side-effects
+  input.click();
+
+  await global.fetch.mock.results[0].value;
+  await global.fetch.mock.results[0].value.text;
+  expect(document.querySelector('.error').innerText).toEqual('test error');
+});
+
+it('does nothing after non-ok fetch without body', async () => {
+  const input = document.querySelector('input');
+
+  expect.assertions(1);
+  global.fetch.mockResolvedValue({
+    'ok': false,
+    text: jest.fn().mockRejectedValue(),
+  });
+
+  require('../client.js'); // Module has side-effects
+  input.click();
+
+  await global.fetch.mock.results[0].value;
+  await global.fetch.mock.results[0].value.text;
+  expect(document.querySelector('.error')).toBe(null);
+});
+
 it('displays an error message for failed API requests', async () => {
   const input = document.querySelector('input');
 
@@ -88,7 +122,7 @@ it('displays an error message for failed API requests', async () => {
   input.click();
 
   await expect(global.fetch.mock.results[0].value).rejects.toEqual('test error');
-  expect(document.querySelector('.error-message').innerText).toEqual('test error');
+  expect(document.querySelector('.error').innerText).toEqual('test error');
 });
 
 it('sends input name and value during checkbox API request', () => {

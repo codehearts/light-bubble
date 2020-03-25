@@ -33,10 +33,10 @@ app.post(api_endpoint, async (req, res) =>{
     fieldPromises.push(() => device_director.setFieldState(field, req.body[field]));
   }
 
-  // Send 200 if all devices are set, 500 otherwise
+  // Send 200 if all devices are set, 500 with error message otherwise
   await Promise.all(fieldPromises.map(promise => promise()))
     .then(() => res.sendStatus(200))
-    .catch(() => res.sendStatus(500));
+    .catch(error => res.status(500).send(error.toString()));
 });
 
 // Server static assets using view templates

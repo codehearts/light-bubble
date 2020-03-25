@@ -98,7 +98,7 @@ it('responds with empty 200 from /api when successful', async () => {
     });
 });
 
-it('responds with empty 500 from /api when an error occurs', async () => {
+it('responds with 500 from /api when an error occurs', async () => {
   expect.assertions(1);
 
   const mock_device_director = require('../device_director.js')();
@@ -108,9 +108,7 @@ it('responds with empty 500 from /api when an error occurs', async () => {
     .post('/api')
     .send({'form-1-field-1': 'invalid'})
     .expect(500)
-    .then(response => {
-      expect(response.body).toEqual({});
-    });
+    .then(response => expect(response.text).toEqual('error message'));
 });
 
 it('includes script tag for client.js on /', async () => {
