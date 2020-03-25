@@ -14,6 +14,11 @@ class TuyaOutlet {
     this.states = undefined;
 
     device.on('error', () => {});
+
+    // Attempt to recover when disconnected
+    device.on('disconnected', () => {
+      setTimeout(() => this.connect().catch(() => {}), 5000);
+    });
   }
 
   /**

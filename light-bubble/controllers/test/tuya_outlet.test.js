@@ -1,12 +1,15 @@
 const TuyaOutlet = require('../tuya_outlet.js');
 
+jest.useFakeTimers();
+
 it('squashes tuya outlet error events', () => {
-  expect.assertions(2);
+  expect.assertions(1);
 
   new TuyaOutlet({
     on: jest.fn().mockImplementation((event_name, callback) => {
-      expect(event_name).toEqual('error');
-      expect(callback).not.toThrow();
+      if (event_name === 'error') {
+        expect(callback).not.toThrow();
+      }
     })
   });
 });
@@ -15,6 +18,46 @@ it('has undefined outlet states before connecting', () => {
   const outlet = new TuyaOutlet({ on: jest.fn() });
 
   expect(outlet.getStates()).toBeUndefined();
+});
+
+it('reconnects on disconnect', () => {
+  const device = {
+    on: jest.fn(),
+    connect: jest.fn().mockResolvedValue(),
+  };
+
+  // When the "disconnected" event is registered, fire it immediately
+  device.on.mockImplementation((event_name, callback) => {
+    if (event_name === 'disconnected') { callback(); }
+  });
+
+  // Constructing an outlet will set and fire the "disconnected" event handler
+  new TuyaOutlet(device);
+
+  jest.runOnlyPendingTimers();
+
+  expect(setTimeout).toHaveBeenCalledTimes(1);
+  expect(device.connect).toHaveBeenCalledTimes(1);
+});
+
+it('does nothing if reconnect on disconnect fails', () => {
+  const device = {
+    on: jest.fn(),
+    connect: jest.fn().mockRejectedValue(),
+  };
+
+  // When the "disconnected" event is registered, fire it immediately
+  device.on.mockImplementation((event_name, callback) => {
+    if (event_name === 'disconnected') { callback(); }
+  });
+
+  // Constructing an outlet will set and fire the "disconnected" event handler
+  new TuyaOutlet(device);
+
+  jest.runOnlyPendingTimers();
+
+  expect(setTimeout).toHaveBeenCalledTimes(2);
+  expect(device.connect).toHaveBeenCalledTimes(1);
 });
 
 it('connects to device on connect', async () => {
@@ -30,6 +73,9 @@ it('connects to device on connect', async () => {
   const outlet = new TuyaOutlet(device);
   await outlet.connect().catch();
 
+  jest.runOnlyPendingTimers();
+
+  expect(setTimeout).toHaveBeenCalledTimes(2);
   expect(device.connect).toHaveBeenCalledTimes(1);
 });
 
