@@ -24,6 +24,8 @@ class LightBubble {
           .then(response => {
             if (response.ok) {
               checkbox.checked = new_value;
+            } else {
+              response.text().then(this.displayError).catch(() => {});
             }
           })
           .catch(() => { });
@@ -82,7 +84,7 @@ class LightBubble {
    */
   displayError(error_message) {
     const error_element = document.createElement('p');
-    error_element.classList.add('error-message');
+    error_element.classList.add('error');
     error_element.innerText = error_message;
 
     document.body.appendChild(error_element);
