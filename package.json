@@ -12,7 +12,7 @@
   "dependencies": {
     "ejs": "3.1.5",
     "express": "4.17.1",
-    "tuyapi": "5.3.1"
+    "tuyapi": "5.3.2"
   },
   "devDependencies": {
     "eslint": "7.9.0",
