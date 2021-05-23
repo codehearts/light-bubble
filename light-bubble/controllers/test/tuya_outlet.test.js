@@ -3,15 +3,15 @@ const TuyaOutlet = require('../tuya_outlet.js');
 jest.useFakeTimers();
 
 it('squashes tuya outlet error events', () => {
-  expect.assertions(1);
+  const device = {
+    on: jest.fn(),
+  };
 
-  new TuyaOutlet({
-    on: jest.fn().mockImplementation((event_name, callback) => {
-      if (event_name === 'error') {
-        expect(callback).not.toThrow();
-      }
-    })
-  });
+  new TuyaOutlet(device);
+
+  // Ensure the error callback does not throw
+  expect(device.on).toHaveBeenNthCalledWith(1, 'error', expect.any(Function));
+  expect(device.on.mock.calls[0][1]).not.toThrow();
 });
 
 it('has undefined outlet states before connecting', () => {
