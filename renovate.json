@@ -2,7 +2,7 @@
   "extends": [
     "config:base"
   ],
-  "autoMerge": true,
+  "automerge": true,
   "groupName": "all",
   "rangeStrategy": "replace"
 }
