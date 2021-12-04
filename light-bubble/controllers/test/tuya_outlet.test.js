@@ -1,6 +1,7 @@
 const TuyaOutlet = require('../tuya_outlet.js');
 
 jest.useFakeTimers();
+jest.spyOn(global, 'setTimeout');
 
 it('squashes tuya outlet error events', () => {
   const device = {
