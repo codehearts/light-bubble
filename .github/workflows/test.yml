@@ -23,7 +23,5 @@ jobs:
     - run: npm ci
     - run: npm run lint
     - run: npm test -- --coverage
-      env:
-        CI: true
     - name: Upload to Codecov
       uses: codecov/codecov-action@v2
