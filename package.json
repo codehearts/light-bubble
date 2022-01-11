@@ -18,6 +18,6 @@
     "eslint": "8.6.0",
     "eslint-plugin-jest": "25.3.4",
     "jest": "27.4.7",
-    "supertest": "6.2.0"
+    "supertest": "6.2.1"
   }
 }
