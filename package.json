@@ -15,8 +15,8 @@
     "tuyapi": "7.4.0"
   },
   "devDependencies": {
-    "eslint": "8.20.0",
-    "eslint-plugin-jest": "26.7.0",
+    "eslint": "8.21.0",
+    "eslint-plugin-jest": "26.8.0",
     "jest": "27.5.1",
     "supertest": "6.2.4"
   }
