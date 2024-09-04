@@ -16,8 +16,8 @@
   },
   "devDependencies": {
     "eslint": "8.57.0",
-    "eslint-plugin-jest": "26.9.0",
+    "eslint-plugin-jest": "28.8.3",
     "jest": "27.5.1",
-    "supertest": "6.3.4"
+    "supertest": "7.0.0"
   }
 }
